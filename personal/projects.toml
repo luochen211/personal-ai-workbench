@@ -1,0 +1,35 @@
+# 项目位置与来源登记（公开示例）；当前处理范围由近一个月的本人提交记录决定。
+# repository 是本机仓库远端；github 是需求读取源，空值表示仅登记。
+# issue_scope = "mine"：上游仓库只读与我有关的 issue 和 PR（involves），不整仓读取，也不在那里打 agent 标签。
+# repo_path 可以留空（只在 GitHub 上参与、没有本地检出）。
+# subgroup 是页面上的二级分类，可选，没填归「其他」；tags 是可选的字符串数组，显示在项目上、可用来筛选。
+# 开源协作的「我的仓库」「上游贡献」按 github 的 owner 自动加，不用写进 tags。
+# archived = true 归档：项目总览、Issue 列表、待你处理和 GitHub 消息的当前工作台都不再列它，巡检也不在它的仓库派活；
+# 总览的「已归档」里还能看到、能打开详情。archived_at 写归档日期（带引号的 "YYYY-MM-DD"）。
+# 取消归档：把 archived 改成 false（archived_at 可留着）或删掉这两行，重新打开页面就回到所有视图，巡检和派活也恢复；归档不删任何数据。
+# review_prs = true：在不是 luochen211 名下的仓库里也审 agent PR（默认关）。审查 Agent 会在本机装依赖、跑测试；
+# 不论开没开，都只审本人账号从同一仓库分支开的 PR，别人开的、fork 来的一律不审。
+# push_access = true：别人名下、你有推送权限的仓库。和 issue_scope = "mine" 一起用时只读与我有关的 issue，
+# 交给 Agent 时在原仓库开分支开 PR（不 fork、不打 agent 标签），detail 不写「范围：上游仓库」。
+
+[owner]
+# 你的 GitHub 账号。也可以用环境变量 WORKBENCH_GITHUB_LOGIN；都没写时用 gh 当前登录的账号。
+# login = "your-github-login"
+# accounts = ["your-other-account"]          # 你的其他账号：这些账号下的仓库也不算上游
+# emails = ["12345+your-github-login@users.noreply.github.com"]  # 提交用的其他邮箱，用来认「本人提交」
+
+[discovery]
+# 重新核对近月范围时，按 remote 在这些目录下找上游仓库的本地检出；depth 是向下找几层
+# roots = [{ path = "/path/to/code", depth = 3 }]
+# skip_owners = ["某账号"]：这些账号下的仓库不自动登记；只影响自动发现，不影响已登记的项目。
+# 自己的项目、私有项目和客户项目都写在数据目录的 projects.local.toml（不进仓库，见 RUN.md「本机私有项目」）。
+
+# 示例：
+# [[projects]]
+# id = "myapp"
+# name = "我的应用"
+# group = "个人工具"
+# repo_path = "/path/to/myapp"
+# repository = "your-github-login/myapp"
+# github = "your-github-login/myapp"
+# source_status = "GitHub Issues"

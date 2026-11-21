@@ -1,0 +1,82 @@
+{
+ "id": "wechat",
+ "name": "微信",
+ "legacy": "wechat.json",
+ "routes": [
+  {
+   "method": "GET",
+   "path": "/api/wechat",
+   "call": "inbox.view",
+   "open": true
+  },
+  {
+   "method": "POST",
+   "path": "/api/wechat/refresh",
+   "call": "inbox.kick_route"
+  },
+  {
+   "method": "POST",
+   "path": "/api/wechat/done",
+   "call": "inbox.done"
+  }
+ ],
+ "threads": [
+  "inbox.start_keeper"
+ ],
+ "hooks": {
+  "needs.prepare": "needs.refresh_all",
+  "needs.project_of": "needs.project_for",
+  "needs.created": "needs.created"
+ },
+ "command": "needs.cli",
+ "needs_sources": [
+  {
+   "id": "wechat",
+   "event": "wechat.issues.scan",
+   "rule": "微信拟 issue",
+   "subject": "wechat-issues"
+  }
+ ],
+ "autoloop": {
+  "agents": {
+   "wechat-issues": {
+    "name": "微信拟 issue",
+    "use": "command",
+    "command": [
+     "python3",
+     "{root}/personal/plugins/wechat/extract.py",
+     "--no-refresh"
+    ]
+   }
+  },
+  "rules": [
+   {
+    "name": "微信拟 issue",
+    "when": {
+     "source": "local",
+     "types": [
+      "wechat.issues.scan"
+     ]
+    },
+    "to": "wechat-issues",
+    "cwd": "{root}",
+    "tell": "never",
+    "parallel": 1
+   }
+  ],
+  "replaces": [
+   "scripts/wechat_issues.py"
+  ]
+ },
+ "data_files": [
+  "wechat.json",
+  "wechat-pending.json",
+  "wechat-status.json",
+  "wechat-done.json",
+  "wechat-refresh.lock",
+  "wechat-projects.json",
+  "wechat-projects.json.lock"
+ ],
+ "purge": "needs.purge",
+ "checks": "inbox.checks"
+}

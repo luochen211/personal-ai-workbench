@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+.DS_Store
+
+# 本机运行数据（数据库、缓存、交给记录、回复草稿），不进仓库
+.personal/
+# 启动时写的离线快照
+board.html
+
+# 前端依赖和构建缓存
+web/node_modules/
+web/dist/
