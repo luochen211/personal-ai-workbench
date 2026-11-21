@@ -1,6 +1,37 @@
 # 个人版运行与验证
 
-Python 3.11 以上；前端 Node 24。Python 运行时只用标准库；测试使用 pytest。
+Python 3.11 以上、已登录的 `gh`；改前端时需要 Node 24。Python 运行时只用标准库；测试使用 pytest。「交给 Agent」要配合 [agent-autoloop](https://github.com/KKKKhazix/agent-autoloop) 中台使用。
+
+## 第一次用
+
+```sh
+cd workbench                              # 仓库根目录
+python3 -m personal                       # 打开 http://127.0.0.1:8790
+python3 -m personal refresh-commits       # 只重新核对近月项目范围
+python3 -m personal.agent_watch install   # 第一次用或仓库搬家后：装中台规则、技能链接和桌面通道
+```
+
+仓库里的登记表是空的，先在数据目录建 `.personal/projects.local.toml`，写上你的账号和要管的项目（字段说明见下面「本机私有项目」和 `personal/projects.toml`）：
+
+```toml
+[owner]
+login = "your-github-login"
+
+[[projects]]
+id = "myapp"
+name = "我的应用"
+group = "个人工具"
+repo_path = "/path/to/myapp"
+repository = "your-github-login/myapp"
+github = "your-github-login/myapp"
+source_status = "GitHub Issues"
+```
+
+数据放在哪：
+
+- `personal/projects.toml`：公开的登记表模板和字段说明，里面没有项目；你的账号和项目写在数据目录的 `projects.local.toml`，不进仓库。
+- `.personal/`：本机运行数据（提交核对结果、GitHub 缓存、通知同步结果、回复草稿、issue 草稿、对话、暂时不处理的记录），不进仓库。环境变量 `WORKBENCH_DATA` 可以换成别的目录。
+- `~/.agent-autoloop/issues/`：交给 Agent 的记录，和中台共用。
 
 ## 本机工作台
 
